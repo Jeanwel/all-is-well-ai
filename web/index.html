@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All Is Well AI</title>
+<link rel="icon" href="/static/logo.svg">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <img src="/static/logo.svg" alt="" width="34" height="34">
+    <div><div class="name">All Is Well AI</div><div class="tag">Your business brain, on your own computer</div></div>
+  </div>
+  <div class="status">
+    <span id="netPill" class="pill ok"><span class="dot"></span><span id="netText">Online</span></span>
+    <span class="chip-plain" id="vaultChip">Vault: …</span>
+    <span class="device" title="All AI runs on this computer through Ollama">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+      AI on this device · <b id="modelName">…</b>
+    </span>
+    <label class="switch" title="Stage backup: behave exactly as if Wi-Fi were off">
+      <input type="checkbox" id="netToggle"><span class="track"></span> Simulate Wi-Fi off
+    </label>
+  </div>
+</header>
+<div id="banner" class="banner hidden"></div>
+<div id="ollamaWarn" class="warn hidden"></div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <button data-view="ask" class="active">Ask your business</button>
+    <button data-view="report">Continuity report</button>
+    <button data-view="connections">Connections <span id="downBadge" class="badge hidden"></span></button>
+    <button data-view="vault">Vault</button>
+    <button data-view="import">AI import</button>
+    <button data-view="changes">Pending changes <span id="queuedBadge" class="badge hidden"></span></button>
+    <button data-view="export">Export everything</button>
+    <div class="sidefoot" id="bizName"></div>
+  </nav>
+
+  <main>
+    <section id="view-ask" class="view">
+      <div class="tiles" id="tiles"></div>
+      <h1>Ask your business</h1>
+      <p class="muted">Questions across Zoho, HubSpot, ClickUp and BambooHR, answered by AI running on this computer, from your local vault. Works even when those platforms are down.</p>
+      <div id="suggestions" class="suggestions"></div>
+      <div id="chat" class="chat"></div>
+      <form id="askForm" class="askbar">
+        <input id="askInput" autocomplete="off" placeholder="e.g. Which clients owe us money?">
+        <button class="btn" id="askBtn">Ask</button>
+      </form>
+    </section>
+
+    <section id="view-report" class="view hidden">
+      <h1>Continuity report</h1>
+      <p class="muted">If a platform is down, or gone for good, what needs attention right now? Facts come straight from the vault; the local AI only summarises them.</p>
+      <button id="reportBtn" class="btn big">What needs attention now?</button>
+      <div id="reportOut"></div>
+    </section>
+
+    <section id="view-connections" class="view hidden">
+      <div class="head-row">
+        <div><h1>Connections</h1>
+        <p class="muted">The agent copies each platform into the vault every minute. If a platform goes down or shuts down, nothing is lost.</p></div>
+        <div class="actions"><button class="btn ghost" id="activityBtn" title="Make a change inside a platform, then sync">Simulate a change in the cloud</button>
+        <button class="btn" id="syncBtn">Sync now</button></div>
+      </div>
+      <div id="connCards" class="cards"></div>
+      <h2 class="sub">Sync log</h2>
+      <div id="syncLog"></div>
+    </section>
+
+    <section id="view-vault" class="view hidden">
+      <h1>Vault</h1>
+      <p class="muted">Every record from every platform, stored on this computer with its original data and version history.</p>
+      <div class="filters">
+        <div id="entityChips" class="seg"></div>
+        <select id="sourceSel"></select>
+        <input id="vaultSearch" placeholder="Search the vault…">
+      </div>
+      <div id="vaultTable"></div>
+    </section>
+
+    <section id="view-import" class="view hidden">
+      <h1>AI import</h1>
+      <p class="muted">Using a platform we don't have a connector for? Drop in its export (CSV or JSON). The local AI works out what the columns mean, so the file never leaves this computer.</p>
+      <div class="dropzone" id="drop">
+        <p><b>Drop a CSV or JSON export here</b> or <label class="link">choose a file<input type="file" id="fileInput" accept=".csv,.json,.txt" hidden></label></p>
+        <p class="muted small">No file handy? <button class="link" id="sampleBtn">Try a sample Pipedrive deals export</button></p>
+      </div>
+      <div id="importOut"></div>
+    </section>
+
+    <section id="view-changes" class="view hidden">
+      <h1>Pending changes</h1>
+      <p class="muted">Work done while a platform (or the internet) was down. Each change applies in the vault right away and is pushed back to its platform automatically when it returns. Emails are simulated for the demo.</p>
+      <div id="changesTable"></div>
+    </section>
+
+    <section id="view-export" class="view hidden">
+      <h1>Export everything</h1>
+      <p class="muted">Your data belongs to you. If a vendor shuts down, raises prices or locks your account, take everything with you in open formats.</p>
+      <div class="card">
+        <div id="exportSummary"></div>
+        <ul>
+          <li><b>csv/</b>: one spreadsheet per record type (companies, contacts, deals, projects, tasks, invoices, leads, employees, notes). Opens in Excel or Google Sheets.</li>
+          <li><b>original_json/</b>: every record exactly as each platform's API returned it, so nothing is lost in translation.</li>
+        </ul>
+        <a class="btn big" href="/api/export" id="exportBtn">Download everything (.zip)</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<dialog id="recordModal"><div id="recordBody"></div></dialog>
+<dialog id="draftModal">
+  <div class="modal-head"><h2>Draft an email</h2><button class="x" data-close>×</button></div>
+  <div class="field"><label>To</label><input id="dTo"></div>
+  <div class="field"><label>Subject</label><input id="dSubject"></div>
+  <div class="field"><label>Message <span class="muted small" id="dState"></span></label><textarea id="dBody" rows="11"></textarea></div>
+  <div class="row"><button class="btn ghost" id="dRegen">Redraft</button><span class="spacer"></span><button class="btn" id="dSend">Send</button></div>
+</dialog>
+<dialog id="noteModal">
+  <div class="modal-head"><h2 id="noteTitle">Add a note</h2><button class="x" data-close>×</button></div>
+  <div class="field"><textarea id="noteBody" rows="5" placeholder="e.g. Called them, they'll pay on Friday."></textarea></div>
+  <div class="row"><span class="spacer"></span><button class="btn" id="noteSave">Save note</button></div>
+</dialog>
+<div id="toast" class="toast hidden"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
