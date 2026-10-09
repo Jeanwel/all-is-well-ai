@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# the local vault (your business data) never goes to git
+vault/
+# machine-specific settings and secrets
+config.local.json
+.env
+.env.*
+*.gguf
+models/
+.DS_Store

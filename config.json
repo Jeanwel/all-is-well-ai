@@ -1,0 +1,11 @@
+{
+  "business_name": "Northstar Digital",
+  "llm_model": "llama3.2:3b",
+  "embed_model": "nomic-embed-text",
+  "ollama_host": "http://127.0.0.1:11434",
+  "port": 8000,
+  "auto_sync_seconds": 60,
+  "connectivity_url": "http://connectivitycheck.gstatic.com/generate_204",
+  "num_ctx": 4096,
+  "top_k": 6
+}
