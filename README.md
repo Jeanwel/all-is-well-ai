@@ -1,7 +1,7 @@
 # All Is Well AI
 **Your business brain, on your own computer.**
 
-A local AI agent that connects to the cloud platforms a business runs on (Zoho CRM, Zoho Projects, Zoho Books, HubSpot, ClickUp, BambooHR), keeps a complete, versioned copy of everything in a **vault on the company's own computer**, and lets the team keep working, with AI, when those platforms go down, lock them out, or shut down for good.
+Built by Web Innovation Experts. A local AI agent that connects to the cloud platforms a business runs on (Zoho CRM, Zoho Projects, Zoho Books, HubSpot, ClickUp, BambooHR), keeps a complete, versioned copy of everything in a **vault on the company's own computer**, and lets the team keep working, with AI, when those platforms go down, lock them out, or shut down for good.
 
 ## The problem
 Almost every company now runs on third-party SaaS: the CRM holds the clients, the project tool holds the sprints, the accounting tool holds the invoices, the HR tool holds the people. Remote teams depend on them completely. But:
@@ -59,7 +59,7 @@ Almost every company now runs on third-party SaaS: the CRM holds the clients, th
 - **Frontend:** plain HTML/CSS/JavaScript, system fonts, no libraries.
 - **Tests:** pytest.
 - **Cloud services:** none required for any AI feature.
-- **Existing code/assets:** none beyond the open-source libraries above. All demo data (Northstar Digital and its clients) is fictional and was created for this project.
+- **Existing code/assets:** none beyond the open-source libraries above. The demo runs as our company, Web Innovation Experts; all clients, people, invoices and other records in it are fictional sample data created for this project.
 - **AI tools used in development:** Claude (Anthropic), used through claude.ai to write code, demo data and documentation; reviewed and tested by the team.
 
 ## Architecture
@@ -83,7 +83,7 @@ app/          backend
   ai.py           retrieval, exact lookups, prompts, report, AI import mapping
   llm.py          Ollama client (chat, JSON mode, embeddings)
   mock_cloud.py   simulated platforms with real API shapes + outage/shutdown switches
-  demo_data.py    fictional agency data, dates relative to today
+  demo_data.py    sample data for Web Innovation Experts (fictional clients), dates relative to today
 web/          single-page UI (+ samples/pipedrive-deals-export.csv)
 scripts/      setup.py (one-command setup), make_launcher.py
 tests/        tests + a stand-in Ollama for CI

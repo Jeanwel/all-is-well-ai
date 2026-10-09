@@ -79,7 +79,7 @@ def _zoho_crm_norm(entity, r):
 
 # ---------------- Zoho Projects ----------------
 def zoho_projects(c):
-    b = base_url("zoho_projects") + "/restapi/portal/northstar/projects/"
+    b = base_url("zoho_projects") + "/restapi/portal/webinnovationexperts/projects/"
     out = []
     for p in _get(c, b).get("projects", []):
         out.append(("project", p["id"], p, dict(
@@ -137,12 +137,12 @@ def hubspot(c):
 # ---------------- ClickUp ----------------
 def clickup(c):
     out = []
-    for t in _get(c, base_url("clickup") + "/api/v2/team/northstar/task", page=0).get("tasks", []):
+    for t in _get(c, base_url("clickup") + "/api/v2/team/webinnovationexperts/task", page=0).get("tasks", []):
         who = ", ".join(a["username"] for a in t.get("assignees", []))
         due = datetime.fromtimestamp(int(t["due_date"]) / 1000, tz=timezone.utc).date().isoformat() if t.get("due_date") else None
         tags = ", ".join(x["name"] for x in t.get("tags", []))
         out.append(("task", t["id"], t, dict(
-            title=t["name"], company="Northstar Digital (internal)", person=who, status=t["status"]["status"],
+            title=t["name"], company="Web Innovation Experts (internal)", person=who, status=t["status"]["status"],
             due_date=due, summary=f"Internal task in ClickUp list {t['list']['name']}. Tags: {tags}.",
             data={"list": t["list"]["name"], "tags": tags})))
     return out
@@ -151,9 +151,9 @@ def clickup(c):
 # ---------------- BambooHR ----------------
 def bamboohr(c):
     out = []
-    for e in _get(c, base_url("bamboohr") + "/api/gateway.php/northstar/v1/employees/directory").get("employees", []):
+    for e in _get(c, base_url("bamboohr") + "/api/gateway.php/webinnovationexperts/v1/employees/directory").get("employees", []):
         out.append(("employee", e["id"], e, dict(
-            title=e["displayName"], company="Northstar Digital (internal)", person=e["displayName"], status="active",
+            title=e["displayName"], company="Web Innovation Experts (internal)", person=e["displayName"], status="active",
             email=e.get("workEmail"), phone=e.get("mobilePhone"),
             summary=f"Employee: {e['jobTitle']} in {e['department']}, based in {e['location']}. "
                     f"Email {e.get('workEmail')}, mobile {e.get('mobilePhone')}. Hired {e.get('hireDate')}.",
@@ -179,7 +179,7 @@ def push_change(ch: dict, rec: dict | None):
     with client() as c:
         if ch["kind"] == "task_status" and rec and rec["source"] == "zoho_projects":
             pid = json.loads(rec["data"])["project_id"]
-            r = c.post(base_url("zoho_projects") + f"/restapi/portal/northstar/projects/{pid}/tasks/{rec['source_id']}/",
+            r = c.post(base_url("zoho_projects") + f"/restapi/portal/webinnovationexperts/projects/{pid}/tasks/{rec['source_id']}/",
                        json={"status": payload["status"]})
         elif ch["kind"] == "task_status" and rec and rec["source"] == "clickup":
             r = c.put(base_url("clickup") + f"/api/v2/task/{rec['source_id']}", json={"status": payload["status"]})

@@ -1,4 +1,4 @@
-"""Demo business: Northstar Digital, an international marketing agency.
+"""Demo business: Web Innovation Experts, a digital marketing agency (clients and people below are fictional sample data).
 Generates each platform's data in that platform's own API format (Zoho CRM, Zoho Projects, Zoho Books,
 HubSpot, ClickUp, BambooHR). Dates are relative to today so there is always work due today and overdue.
 All companies, people, emails and phone numbers are fictional."""
@@ -252,7 +252,7 @@ def generate(today: date | None = None) -> dict:
                         "date_updated": str(due_ms - 86400000 * 3)})
 
     bamboo = [{"id": str(emp_ids[n]), "displayName": n, "jobTitle": title, "department": dept, "location": loc,
-               "workEmail": f"{n.split()[0].lower()}@northstardigital.example",
+               "workEmail": f"{n.split()[0].lower()}@webinnovationexperts.example",
                "mobilePhone": f"+63 9{rng.randint(10, 99)} {rng.randint(100, 999)} {rng.randint(1000, 9999)}",
                "hireDate": d(-rng.randint(200, 2400))} for n, title, dept, loc in EMPLOYEES]
 

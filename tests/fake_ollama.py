@@ -27,7 +27,7 @@ def fake_answer(prompt: str) -> str:
     if "FACTS:" in prompt:
         return "## Top priorities\n- Follow up on overdue invoices " + " ".join(f"[{i}]" for i in ids) + "\n## Money\n- See totals below.\n"
     if not ids:
-        return "Dear client, this is a friendly reminder. Thank you!\nNorthstar Digital team"
+        return "Dear client, this is a friendly reminder. Thank you!\nWeb Innovation Experts team"
     return "From your records: " + ", ".join(f"[{i}]" for i in ids) + "."
 
 

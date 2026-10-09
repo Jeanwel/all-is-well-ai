@@ -13,7 +13,7 @@ SOURCE_NAME = {"zoho_crm": "Zoho CRM", "zoho_projects": "Zoho Projects", "zoho_b
                "hubspot": "HubSpot", "clickup": "ClickUp", "bamboohr": "BambooHR"}
 OPEN_TASK = "entity='task' AND lower(status) NOT IN ('closed','complete')"
 OPEN_DEAL = "entity='deal' AND status NOT LIKE 'Closed%'"
-INTERNAL = "Northstar Digital (internal)"
+INTERNAL = "Web Innovation Experts (internal)"
 money = lambda v: f"AUD {float(v or 0):,.0f}"
 
 

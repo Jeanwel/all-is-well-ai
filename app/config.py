@@ -10,7 +10,7 @@ DATA_LOG = VAULT_DIR / "sent_log.txt"   # simulated outgoing email log
 WEB_DIR = ROOT / "web"
 
 DEFAULTS = {
-    "business_name": "Northstar Digital",
+    "business_name": "Web Innovation Experts",
     "llm_model": "llama3.2:3b",
     "embed_model": "nomic-embed-text",
     "ollama_host": "http://127.0.0.1:11434",

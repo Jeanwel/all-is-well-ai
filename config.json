@@ -1,5 +1,5 @@
 {
-  "business_name": "Northstar Digital",
+  "business_name": "Web Innovation Experts",
   "llm_model": "llama3.2:3b",
   "embed_model": "nomic-embed-text",
   "ollama_host": "http://127.0.0.1:11434",
