@@ -72,11 +72,12 @@ def main():
     step("Starting Ollama (the local AI engine)")
     if not ol.start():
         print("""
-   Ollama is not installed (or wouldn't start). It's the free app that runs the AI on this computer.
-   Install it, then run this setup again:
-     Windows : https://ollama.com/download   (or: winget install -e --id Ollama.Ollama)
-     macOS   : https://ollama.com/download   (drag to Applications, open it once)
-     Linux   : curl -fsSL https://ollama.com/install.sh | sh
+   Ollama didn't respond. Usually it's one of these:
+     1. Windows: open "Ollama" from the Start menu once (a llama icon appears by the clock),
+        or close this window, open a NEW PowerShell and run setup again.
+     2. Not installed yet: https://ollama.com/download  (Windows: winget install -e --id Ollama.Ollama)
+     3. Check it: open http://localhost:11434 in a browser. It should say "Ollama is running".
+   Then run this setup again.
 """)
         sys.exit(1)
     print("   Ollama is running at", CFG["ollama_host"])

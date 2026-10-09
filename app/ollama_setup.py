@@ -22,12 +22,16 @@ def find_binary():
     exe = shutil.which("ollama")
     if exe:
         return exe
-    candidates = [Path.home() / "AppData/Local/Programs/Ollama/ollama.exe",
-                  Path("/Applications/Ollama.app/Contents/Resources/ollama"), Path("/usr/local/bin/ollama")]
+    import os
+    local = Path(os.environ.get("LOCALAPPDATA", Path.home() / "AppData/Local"))
+    candidates = [local / "Programs/Ollama/ollama.exe", Path.home() / "AppData/Local/Programs/Ollama/ollama.exe",
+                  Path(os.environ.get("ProgramFiles", "C:/Program Files")) / "Ollama/ollama.exe",
+                  Path("/Applications/Ollama.app/Contents/Resources/ollama"), Path("/usr/local/bin/ollama"),
+                  Path("/usr/bin/ollama")]
     return next((str(p) for p in candidates if p.exists()), None)
 
 
-def start(wait=25) -> bool:
+def start(wait=60) -> bool:
     """Start Ollama in the background if it isn't running. Returns True when it answers."""
     if reachable():
         return True
@@ -37,7 +41,9 @@ def start(wait=25) -> bool:
     else:
         exe = find_binary()
         if not exe:
+            print("   Couldn't find ollama.exe on this computer.")
             return False
+        print(f"   Starting {exe} (the first start can take up to a minute)...")
         flags = 0x08000000 if system == "Windows" else 0  # CREATE_NO_WINDOW
         subprocess.Popen([exe, "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                          creationflags=flags, start_new_session=(system != "Windows"))
